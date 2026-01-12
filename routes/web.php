@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $users = App\Models\User::where('tenant_id', auth()->user()->tenant_id)->get();
+    $users = App\Models\User::tenanting()->get();
     return view('dashboard', compact('users'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
