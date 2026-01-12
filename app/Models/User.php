@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Scopes\TenantScope;
+use App\Traits\Tenantable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,Tenantable;
 
     /**
      * The attributes that are mass assignable.
@@ -47,22 +48,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function tenant()
-    {
-        return $this->belongsTo(Tenant::class);
-    }
-
-    public function scopeTenanting()
-    {
-        return $this->where('tenant_id', auth()->user()->tenant_id);
-    }
-
-    public static function booted()
-    {
-        if (auth()->check()) {
-            static::addGlobalScope(new TenantScope());
-        }
     }
 }

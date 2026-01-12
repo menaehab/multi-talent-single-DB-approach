@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\TenantScope;
 use App\Traits\Tenantable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
-#[ScopedBy(TenantScope::class)]
-class Article extends Model
+class Comment extends Model
 {
     use Tenantable;
 
